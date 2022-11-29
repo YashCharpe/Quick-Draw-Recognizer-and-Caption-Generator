@@ -1,1 +1,4 @@
 download model from here: https://drive.google.com/drive/folders/1m2N0aU4Q_m9gxX-6dIy-7Z-AetAHxkhY?usp=sharing
+Assets and weights
+ - Download files from https://drive.google.com/drive/folders/17kaIoreMFq0iCWmlIuYXlbEgs6_O_Ylw?usp=sharing
+ in the assets folder
