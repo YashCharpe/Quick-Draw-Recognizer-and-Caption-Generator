@@ -1,5 +1,4 @@
-from tensorflow.keras.models import load_model
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model, Sequential
 import pandas as pd
 import numpy as np
 from PIL import Image
@@ -8,6 +7,16 @@ from streamlit_drawable_canvas import st_canvas
 import pickle
 import tensorflow as tf
 import cv2
+import re, string
+
+
+def standardize(s):
+  s = tf.strings.lower(s)
+  s = tf.strings.regex_replace(s, f'[{re.escape(string.punctuation)}]', '')
+  s = tf.strings.join(['[START]', s, '[END]'], separator=' ')
+  return s
+
+from model import model
 
 # Specify canvas parameters in application
 # drawing_mode = st.sidebar.selectbox(
@@ -16,7 +25,7 @@ import cv2
 
 
 def drawHereMode():
-        
+
     drawing_mode = "freedraw"
     st.header("Quick Draw Recognizer")
     st.subheader("Draw Here")
@@ -116,8 +125,8 @@ def uploadImageMode():
         st.markdown(classes[index])
     except AttributeError:
         print("AttributeError Found")
-    
-    
+
+
 
 
 def captionGenerationMode():
@@ -140,9 +149,9 @@ def captionGenerationMode():
         print(model.predict(images))
     except AttributeError:
         print("AttributeError Found")
-    
-    
-    
+
+
+
 
 
 tabs = st.tabs(('Draw Here','Upload Image','Caption Generator'))

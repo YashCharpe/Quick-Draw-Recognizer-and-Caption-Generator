@@ -1,0 +1,8 @@
+numpy
+opencv-python-headless
+pandas
+pillow
+streamlit
+streamlit_drawable_canvas
+tensorflow
+tqdm
