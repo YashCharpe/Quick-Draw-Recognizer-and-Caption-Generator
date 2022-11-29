@@ -1,5 +1,6 @@
 __pycache__
 **/__pycache__
-assets
+!assets
+assets/*
 cnn_model.h5
 env
