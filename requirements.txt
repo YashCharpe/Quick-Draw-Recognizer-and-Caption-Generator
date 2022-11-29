@@ -5,3 +5,4 @@ pillow
 streamlit
 streamlit_drawable_canvas
 tensorflow
+tqdm

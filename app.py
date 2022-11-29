@@ -7,6 +7,16 @@ from streamlit_drawable_canvas import st_canvas
 import pickle
 import tensorflow as tf
 import cv2
+import re, string
+
+
+def standardize(s):
+  s = tf.strings.lower(s)
+  s = tf.strings.regex_replace(s, f'[{re.escape(string.punctuation)}]', '')
+  s = tf.strings.join(['[START]', s, '[END]'], separator=' ')
+  return s
+
+from model import model
 
 # Specify canvas parameters in application
 # drawing_mode = st.sidebar.selectbox(
