@@ -138,15 +138,19 @@ def captionGenerationMode():
         show_file.image(image)
         content = image.getvalue()
         original_img = cv2.imdecode(np.frombuffer(content,np.uint8),cv2.IMREAD_COLOR)
-        original_img = cv2.resize(original_img,(250,250))
-        model = Sequential()
-        model.built = True
-        model.load_weights('caption_model.h5')
-        # img = cv2.cvtColor(original_img, cv2.COLOR_RGBA2RGB)
-        X = np.expand_dims(original_img, axis=0)
-        images = np.vstack([X])
-        print(dir(model))
-        print(model.predict(images))
+        original_img = cv2.resize(original_img,(224, 224))
+
+        p = model.simple_gen(original_img)
+        st.subheader('Caption')
+        st.markdown(p)
+        # model = Sequential()
+        # model.built = True
+        # model.load_weights('caption_model.h5')
+        # # img = cv2.cvtColor(original_img, cv2.COLOR_RGBA2RGB)
+        # X = np.expand_dims(original_img, axis=0)
+        # images = np.vstack([X])
+        # print(dir(model))
+        # print(model.predict(images))
     except AttributeError:
         print("AttributeError Found")
 
