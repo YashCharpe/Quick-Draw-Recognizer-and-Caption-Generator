@@ -1,4 +1,5 @@
 import collections
+import einops
 import numpy as np
 import pickle
 import re
@@ -14,7 +15,6 @@ def standardize(s):
   s = tf.strings.join(['[START]', s, '[END]'], separator=' ')
   return s
 
-#@title
 class TokenOutput(tf.keras.layers.Layer):
   def __init__(self, tokenizer, banned_tokens=('', '[UNK]', '[START]'), **kwargs):
     super().__init__()
@@ -79,7 +79,10 @@ index_to_word = tf.keras.layers.StringLookup(
     vocabulary=tokenizer.get_vocabulary(),
     invert=True)
 
+_output_layer_data = pickle.load(open('assets/output_layer.pkl', 'rb'))
 output_layer = TokenOutput(tokenizer, banned_tokens=('', '[UNK]', '[START]'))
+output_layer.set_weights(_output_layer_data['weights'])
+output_layer.bias = _output_layer_data['bias']
 
 @Captioner.add_method
 def call(self, inputs):
