@@ -124,6 +124,8 @@ class Captioner(tf.keras.Model):
 
     self.output_layer = output_layer
 
+
+
 IMAGE_SHAPE=(224, 224, 3)
 mobilenet = tf.keras.applications.MobileNetV3Small(
     input_shape=IMAGE_SHAPE,
