@@ -8,6 +8,7 @@ import pickle
 import tensorflow as tf
 import cv2
 import re, string
+import streamlit.components.v1 as com
 
 
 def standardize(s):
@@ -80,11 +81,15 @@ def drawHereMode():
         # print(model.predict(images))
         val = model.predict(images)
         index = np.argmax(val[0])
-        #print(val)
+        print(val)
         print(index)
         print(classes[index])
         st.subheader("Predictions")
         st.markdown(classes[index])
+
+    st.markdown("This Convolutional Neural Network (CNN) was trained on the following 50 classes:",unsafe_allow_html=False)
+    st.caption("Alarm Clock, Angel, Apple, Backpack, Banana, Basket, Bed, Bell, Bicycle, Binoculars, Book, Bus, Butterfly, Camera, Car, Cat, Chair, Cloud, Cow, Cup, Dog, Door, Duck, Ear, Eye, Eyeglasses, Fish, Flying Bird, Guitar, Hand, Hat, Helicopter, Horse, House, Key, Knife, Ladder, Laptop, Monkey, Moon, Pen, Person, Radio, Scissors, Screwdriver, Shoe, Socks, Table, Teacup, Telephone",unsafe_allow_html=False)
+
 
     # if canvas_result.json_data is not None:
     #     objects = pd.json_normalize(canvas_result.json_data["objects"]) # need to convert obj to str because PyArrow
@@ -125,6 +130,9 @@ def uploadImageMode():
         st.markdown(classes[index])
     except AttributeError:
         print("AttributeError Found")
+    st.markdown("This Convolutional Neural Network (CNN) was trained on the following 50 classes:",unsafe_allow_html=False)
+    st.caption("Alarm Clock, Angel, Apple, Backpack, Banana, Basket, Bed, Bell, Bicycle, Binoculars, Book, Bus, Butterfly, Camera, Car, Cat, Chair, Cloud, Cow, Cup, Dog, Door, Duck, Ear, Eye, Eyeglasses, Fish, Flying Bird, Guitar, Hand, Hat, Helicopter, Horse, House, Key, Knife, Ladder, Laptop, Monkey, Moon, Pen, Person, Radio, Scissors, Screwdriver, Shoe, Socks, Table, Teacup, Telephone",unsafe_allow_html=False)
+
 
 
 
@@ -140,18 +148,11 @@ def captionGenerationMode():
         original_img = cv2.imdecode(np.frombuffer(content,np.uint8),cv2.IMREAD_COLOR)
         original_img = cv2.resize(original_img,(224,224))
         original_img = original_img.reshape(224,224,3)
-        k = model.simple_gen(original_img)
-        print(k)
-        # print("ok")
-        # print(dir(model))
-        # model = Sequential()
-        # model.built = True
-        # model.load_weights('caption_model.h5')
-        # # img = cv2.cvtColor(original_img, cv2.COLOR_RGBA2RGB)
-        # X = np.expand_dims(original_img, axis=0)
-        # images = np.vstack([X])
-        # print(dir(model))
-        # print(model.predict(images))
+        st.subheader("Possible Captions:")
+        for i in range(5):
+            k = model.simple_gen(original_img)
+            k = str(i+1)+". "+k
+            st.markdown(k)
     except AttributeError:
         print("AttributeError Found")
 
@@ -167,3 +168,15 @@ with tabs[1]:
     uploadImageMode()
 with tabs[2]:
     captionGenerationMode()
+
+# classes = ['alarm clock', 'angel', 'apple', 'backpack', 'banana', 'basket',
+#             'bed', 'bell', 'bicycle', 'binoculars', 'book',
+#             'bus', 'butterfly', 'camera', 'car (sedan)', 'cat',
+#             'chair', 'cloud', 'cow', 'cup', 'dog',
+#             'door', 'duck', 'ear', 'eye', 'eyeglasses',
+#             'fish', 'flying bird', 'guitar', 'hand', 'hat',
+#             'helicopter', 'horse', 'house', 'key', 'knife',
+#             'ladder', 'laptop', 'monkey', 'moon', 'pen',
+#             'person', 'radio', 'scissors', 'screwdriver', 'shoe',
+#             'socks', 'table', 'teacup', 'telephone']
+

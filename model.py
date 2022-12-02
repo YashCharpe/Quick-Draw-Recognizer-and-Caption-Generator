@@ -1,13 +1,12 @@
-import collections
-import einops
-import numpy as np
-import pickle
-import re
-import string
-import tensorflow as tf
-import einops
-
 from utils.captioner import Captioner, mobilenet
+import tensorflow as tf
+import collections
+import numpy as np
+import einops
+import pickle
+import string
+import einops
+import re
 
 def standardize(s):
   s = tf.strings.lower(s)
