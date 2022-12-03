@@ -19,10 +19,6 @@ def standardize(s):
 
 from model import model
 
-# Specify canvas parameters in application
-# drawing_mode = st.sidebar.selectbox(
-#     "Drawing tool:", ("point", "freedraw", "line", "rect", "circle", "transform")
-# )
 
 
 def drawHereMode():
@@ -35,9 +31,6 @@ def drawHereMode():
     if drawing_mode == 'point':
         point_display_radius = st.sidebar.slider(
             "Point display radius: ", 1, 25, 3)
-    # stroke_color = st.sidebar.color_picker("Stroke color hex: ")
-    # bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
-    #bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
     bg_color = "#fff"
     realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
@@ -46,7 +39,6 @@ def drawHereMode():
         fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
         stroke_width=stroke_width,
         background_color=bg_color,
-        #background_image=Image.open(bg_image) if bg_image else None,
         background_image= None,
         update_streamlit=realtime_update,
         height=250,
@@ -69,16 +61,11 @@ def drawHereMode():
 
     # Do something interesting with the image data and paths
     if canvas_result.image_data is not None:
-        # st.image(canvas_result.image_data)
-        # pik_file = open("model_cnn.pkl","rb")
-        # #cnn = pickle.load(pik_file)
-        # cnn = tf.keras.models.load_model(pik_file)
 
         model = load_model('cnn_model.h5')
         img = cv2.cvtColor(canvas_result.image_data, cv2.COLOR_RGBA2RGB)
         X = np.expand_dims(img, axis=0)
         images = np.vstack([X])
-        # print(model.predict(images))
         val = model.predict(images)
         index = np.argmax(val[0])
         print(val)
@@ -90,12 +77,6 @@ def drawHereMode():
     st.markdown("This Convolutional Neural Network (CNN) was trained on the following 50 classes:",unsafe_allow_html=False)
     st.caption("Alarm Clock, Angel, Apple, Backpack, Banana, Basket, Bed, Bell, Bicycle, Binoculars, Book, Bus, Butterfly, Camera, Car, Cat, Chair, Cloud, Cow, Cup, Dog, Door, Duck, Ear, Eye, Eyeglasses, Fish, Flying Bird, Guitar, Hand, Hat, Helicopter, Horse, House, Key, Knife, Ladder, Laptop, Monkey, Moon, Pen, Person, Radio, Scissors, Screwdriver, Shoe, Socks, Table, Teacup, Telephone",unsafe_allow_html=False)
 
-
-    # if canvas_result.json_data is not None:
-    #     objects = pd.json_normalize(canvas_result.json_data["objects"]) # need to convert obj to str because PyArrow
-    #     for col in objects.select_dtypes(include=['object']).columns:
-    #         objects[col] = objects[col].astype("str")
-    #     st.dataframe(objects)
 
 def uploadImageMode():
     st.header("Upload Image Here")
@@ -120,10 +101,8 @@ def uploadImageMode():
         img = cv2.cvtColor(original_img, cv2.COLOR_RGBA2RGB)
         X = np.expand_dims(img, axis=0)
         images = np.vstack([X])
-        # print(model.predict(images))
         val = model.predict(images)
         index = np.argmax(val[0])
-        #print(val)
         print(index)
         print(classes[index])
         st.subheader("Predictions")
@@ -168,15 +147,3 @@ with tabs[1]:
     uploadImageMode()
 with tabs[2]:
     captionGenerationMode()
-
-# classes = ['alarm clock', 'angel', 'apple', 'backpack', 'banana', 'basket',
-#             'bed', 'bell', 'bicycle', 'binoculars', 'book',
-#             'bus', 'butterfly', 'camera', 'car (sedan)', 'cat',
-#             'chair', 'cloud', 'cow', 'cup', 'dog',
-#             'door', 'duck', 'ear', 'eye', 'eyeglasses',
-#             'fish', 'flying bird', 'guitar', 'hand', 'hat',
-#             'helicopter', 'horse', 'house', 'key', 'knife',
-#             'ladder', 'laptop', 'monkey', 'moon', 'pen',
-#             'person', 'radio', 'scissors', 'screwdriver', 'shoe',
-#             'socks', 'table', 'teacup', 'telephone']
-
